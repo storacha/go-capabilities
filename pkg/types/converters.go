@@ -8,16 +8,20 @@ import (
 	"net/url"
 	"slices"
 
+	"github.com/filecoin-project/go-data-segment/merkletree"
 	"github.com/ipfs/go-cid"
 	"github.com/ipld/go-ipld-prime/datamodel"
 	cidlink "github.com/ipld/go-ipld-prime/linking/cid"
 	"github.com/ipld/go-ipld-prime/node/bindnode"
 	"github.com/multiformats/go-multiaddr"
+	"github.com/storacha/go-piece/pkg/piece"
 	"github.com/storacha/go-ucanto/core/ipld"
 	"github.com/storacha/go-ucanto/core/schema"
 	"github.com/storacha/go-ucanto/core/schema/options"
 	"github.com/storacha/go-ucanto/did"
 )
+
+var ErrWrongLength = errors.New("length must be 32")
 
 var MultiaddrConverter = options.NamedBytesConverter("Multiaddr", multiaddr.NewMultiaddrBytes, func(m multiaddr.Multiaddr) ([]byte, error) {
 	return m.Bytes(), nil
@@ -84,4 +88,19 @@ var Version1LinkConverter = options.NamedLinkConverter("V1Link", func(c cid.Cid)
 	return cl.Cid, nil
 })
 
-var Converters = []bindnode.Option{MultiaddrConverter, HasMultihashConverter, DIDConverter, URLConverter, HTTPHeaderConverter, Version1LinkConverter}
+var PieceLinkConverter = options.NamedLinkConverter("PieceLink", func(c cid.Cid) (piece.PieceLink, error) {
+	return piece.FromLink(cidlink.Link{Cid: c})
+}, func(p piece.PieceLink) (cid.Cid, error) {
+	return p.Link().(cidlink.Link).Cid, nil
+})
+
+var MerkleNodeConverter = options.NamedBytesConverter("Node", func(b []byte) (merkletree.Node, error) {
+	if len(b) != len(merkletree.Node{}) {
+		return merkletree.Node{}, ErrWrongLength
+	}
+	return *(*merkletree.Node)(b), nil
+}, func(n merkletree.Node) ([]byte, error) {
+	return n[:], nil
+})
+
+var Converters = []bindnode.Option{MultiaddrConverter, HasMultihashConverter, DIDConverter, URLConverter, HTTPHeaderConverter, Version1LinkConverter, PieceLinkConverter, MerkleNodeConverter}

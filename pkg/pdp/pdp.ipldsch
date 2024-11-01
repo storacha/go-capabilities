@@ -1,0 +1,18 @@
+type Node bytes
+type PieceLink link
+
+type PDPAcceptCaveats struct {
+  content Link
+	piece   PieceLink
+}
+
+type ProofData struct {
+	path  [Node]
+	index Int
+}
+
+type PDPAcceptOk struct {
+	aggregate      PieceLink
+	inclusionProof ProofData
+	piece          PieceLink
+}

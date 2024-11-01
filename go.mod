@@ -1,6 +1,6 @@
 module github.com/storacha/go-capabilities
 
-go 1.23
+go 1.23.0
 
 toolchain go1.23.2
 
@@ -15,6 +15,8 @@ require (
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/filecoin-project/go-data-segment v0.0.1
+	github.com/filecoin-project/go-fil-commcid v0.2.0 // indirect
 	github.com/francoispqt/gojay v1.2.13 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
@@ -70,6 +72,7 @@ require (
 	github.com/prometheus/procfs v0.15.1 // indirect
 	github.com/quic-go/qpack v0.5.1 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
+	github.com/storacha/go-piece v0.0.0-20241029194315-5f46ae2d4418
 	github.com/ucan-wg/go-ucan v0.0.0-20240916120445-37f52863156c // indirect
 	github.com/whyrusleeping/cbor-gen v0.1.2 // indirect
 	go.opentelemetry.io/otel v1.30.0 // indirect
