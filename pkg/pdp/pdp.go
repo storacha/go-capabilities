@@ -35,13 +35,20 @@ func PDPAcceptCaveatsType() ipldschema.Type {
 	return pdpTS.TypeByName("PDPAcceptCaveats")
 }
 
-func PDPPAcceptOkType() ipldschema.Type {
+func PDPAcceptOkType() ipldschema.Type {
 	return pdpTS.TypeByName("PDPAcceptOk")
 }
 
+func PDPInfoCaveatsType() ipldschema.Type {
+	return pdpTS.TypeByName("PDPInfoCaveats")
+}
+
+func PDPInfoOkType() ipldschema.Type {
+	return pdpTS.TypeByName("PDPInfoOk")
+}
+
 type PDPAcceptCaveats struct {
-	Content datamodel.Link
-	Piece   piece.PieceLink
+	Piece piece.PieceLink
 }
 
 func (pc PDPAcceptCaveats) ToIPLD() (datamodel.Node, error) {
@@ -64,12 +71,38 @@ type PDPAcceptOk struct {
 }
 
 func (po PDPAcceptOk) ToIPLD() (datamodel.Node, error) {
-	return ipld.WrapWithRecovery(po, PDPPAcceptOkType(), types.Converters...)
+	return ipld.WrapWithRecovery(po, PDPAcceptOkType(), types.Converters...)
 }
 
 const PDPInfoAbility = "pdp/info"
 
 type PDPInfoCaveats struct {
-	Content datamodel.Link
-	Piece   piece.PieceLink
+	Piece piece.PieceLink
+}
+
+func (pi PDPInfoCaveats) ToIPLD() (datamodel.Node, error) {
+	return ipld.WrapWithRecovery(pi, PDPInfoCaveatsType(), types.Converters...)
+}
+
+var PDPInfoCaveatsReader = schema.Struct[PDPInfoCaveats](PDPInfoCaveatsType(), nil, types.Converters...)
+
+var PDPInfo = validator.NewCapability(
+	PDPInfoAbility,
+	schema.DIDString(),
+	PDPInfoCaveatsReader,
+	validator.DefaultDerives,
+)
+
+type PDPInfoAcceptedAggregate struct {
+	Aggregate      piece.PieceLink
+	InclusionProof merkletree.ProofData
+}
+
+type PDPInfoOk struct {
+	Piece      piece.PieceLink
+	Aggregates []PDPInfoAcceptedAggregate
+}
+
+func (po PDPInfoOk) ToIPLD() (datamodel.Node, error) {
+	return ipld.WrapWithRecovery(po, PDPInfoOkType(), types.Converters...)
 }
