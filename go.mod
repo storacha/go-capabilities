@@ -72,7 +72,7 @@ require (
 	github.com/prometheus/procfs v0.15.1 // indirect
 	github.com/quic-go/qpack v0.5.1 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
-	github.com/storacha/go-piece v0.0.0-20241029194315-5f46ae2d4418
+	github.com/storacha/go-piece v0.0.0-20241102032446-a7c497f05d55
 	github.com/ucan-wg/go-ucan v0.0.0-20240916120445-37f52863156c // indirect
 	github.com/whyrusleeping/cbor-gen v0.1.2 // indirect
 	go.opentelemetry.io/otel v1.30.0 // indirect

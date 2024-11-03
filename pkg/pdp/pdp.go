@@ -71,7 +71,7 @@ type PDPAcceptOk struct {
 }
 
 func (po PDPAcceptOk) ToIPLD() (datamodel.Node, error) {
-	return ipld.WrapWithRecovery(po, PDPAcceptOkType(), types.Converters...)
+	return ipld.WrapWithRecovery(&po, PDPAcceptOkType(), types.Converters...)
 }
 
 const PDPInfoAbility = "pdp/info"
@@ -81,7 +81,7 @@ type PDPInfoCaveats struct {
 }
 
 func (pi PDPInfoCaveats) ToIPLD() (datamodel.Node, error) {
-	return ipld.WrapWithRecovery(pi, PDPInfoCaveatsType(), types.Converters...)
+	return ipld.WrapWithRecovery(&pi, PDPInfoCaveatsType(), types.Converters...)
 }
 
 var PDPInfoCaveatsReader = schema.Struct[PDPInfoCaveats](PDPInfoCaveatsType(), nil, types.Converters...)
@@ -104,5 +104,5 @@ type PDPInfoOk struct {
 }
 
 func (po PDPInfoOk) ToIPLD() (datamodel.Node, error) {
-	return ipld.WrapWithRecovery(po, PDPInfoOkType(), types.Converters...)
+	return ipld.WrapWithRecovery(&po, PDPInfoOkType(), types.Converters...)
 }
