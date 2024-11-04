@@ -19,14 +19,14 @@ import (
 //go:embed types.ipldsch
 var typesSchema []byte
 
-var ts *ipldschema.TypeSystem
+var typesTs *ipldschema.TypeSystem
 
 func init() {
-	rts, err := ipld.LoadSchemaBytes(typesSchema)
+	ts, err := ipld.LoadSchemaBytes(typesSchema)
 	if err != nil {
-		panic(fmt.Errorf("loading assert schema: %w", err))
+		panic(fmt.Errorf("loading types schema: %w", err))
 	}
-	ts = rts
+	typesTs = ts
 }
 
 type HeadersModel struct {
@@ -35,11 +35,11 @@ type HeadersModel struct {
 }
 
 func HeadersType() ipldschema.Type {
-	return ts.TypeByName("Headers")
+	return typesTs.TypeByName("Headers")
 }
 
 func DigestType() ipldschema.Type {
-	return ts.TypeByName("Digest")
+	return typesTs.TypeByName("Digest")
 }
 
 type DigestModel struct {
