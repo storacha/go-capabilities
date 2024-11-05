@@ -13,12 +13,11 @@ type AllocateCaveats struct {
   cause Link
 }
 
-type HeadersModel {String:String}
-type Headers any
+type HTTPHeaders any
 
 type Address struct {
-  url URL
-  headers Headers
+  URL URL (rename "url")
+  headers HTTPHeaders
   expires Int
 }
 

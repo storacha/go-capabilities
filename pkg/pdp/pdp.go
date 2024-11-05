@@ -21,14 +21,14 @@ const PDPAcceptAbility = "pdp/accept"
 //go:embed pdp.ipldsch
 var pdpSchema []byte
 
-var pdpTS *ipldschema.TypeSystem
+var pdpTS = mustLoadTS()
 
-func init() {
+func mustLoadTS() *ipldschema.TypeSystem {
 	ts, err := ipldprime.LoadSchemaBytes(pdpSchema)
 	if err != nil {
 		panic(fmt.Errorf("loading blob schema: %w", err))
 	}
-	pdpTS = ts
+	return ts
 }
 
 func PDPAcceptCaveatsType() ipldschema.Type {

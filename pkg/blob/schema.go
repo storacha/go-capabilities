@@ -12,14 +12,14 @@ import (
 //go:embed blob.ipldsch
 var blobSchema []byte
 
-var blobTS *schema.TypeSystem
+var blobTS = mustLoadTS()
 
-func init() {
+func mustLoadTS() *schema.TypeSystem {
 	ts, err := ipld.LoadSchemaBytes(blobSchema)
 	if err != nil {
 		panic(fmt.Errorf("loading blob schema: %w", err))
 	}
-	blobTS = ts
+	return ts
 }
 
 func AllocateCaveatsType() schema.Type {

@@ -9,7 +9,7 @@ require (
 	github.com/ipld/go-ipld-prime v0.21.1-0.20240917223228-6148356a4c2e
 	github.com/multiformats/go-multiaddr v0.13.0
 	github.com/multiformats/go-multihash v0.2.3
-	github.com/storacha/go-ucanto v0.2.1-0.20241101213013-d4cff4a75f56
+	github.com/storacha/go-ucanto v0.2.1-0.20241105025747-aa8566a3a3fb
 )
 
 require (

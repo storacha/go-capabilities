@@ -19,14 +19,14 @@ import (
 //go:embed types.ipldsch
 var typesSchema []byte
 
-var typesTs *ipldschema.TypeSystem
+var typesTs = mustLoadTS()
 
-func init() {
+func mustLoadTS() *ipldschema.TypeSystem {
 	ts, err := ipld.LoadSchemaBytes(typesSchema)
 	if err != nil {
 		panic(fmt.Errorf("loading types schema: %w", err))
 	}
-	typesTs = ts
+	return ts
 }
 
 type HeadersModel struct {

@@ -76,7 +76,7 @@ func nodeToHeader(nd datamodel.Node) (http.Header, error) {
 	return header, nil
 }
 
-var HTTPHeaderConverter = options.NamedAnyConverter("HTTPHeader", nodeToHeader, headerToNode)
+var HTTPHeaderConverter = options.NamedAnyConverter("HTTPHeaders", nodeToHeader, headerToNode)
 
 var Version1LinkConverter = options.NamedLinkConverter("V1Link", func(c cid.Cid) (ipld.Link, error) {
 	return schema.Link(schema.WithVersion(1)).Read(cidlink.Link{Cid: c})

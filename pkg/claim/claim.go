@@ -18,14 +18,14 @@ import (
 //go:embed claim.ipldsch
 var claimSchema []byte
 
-var claimTypeSystem *ipldschema.TypeSystem
+var claimTypeSystem = mustLoadTS()
 
-func init() {
+func mustLoadTS() *ipldschema.TypeSystem {
 	ts, err := ipldprime.LoadSchemaBytes(claimSchema)
 	if err != nil {
 		panic(fmt.Errorf("loading claim schema: %w", err))
 	}
-	claimTypeSystem = ts
+	return ts
 }
 
 func CacheCaveatsType() ipldschema.Type {

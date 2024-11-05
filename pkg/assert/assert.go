@@ -12,6 +12,7 @@ import (
 	ipldschema "github.com/ipld/go-ipld-prime/schema"
 	"github.com/storacha/go-capabilities/pkg/types"
 	"github.com/storacha/go-ucanto/core/ipld"
+	"github.com/storacha/go-ucanto/core/result/failure"
 	"github.com/storacha/go-ucanto/core/schema"
 	"github.com/storacha/go-ucanto/did"
 	"github.com/storacha/go-ucanto/validator"
@@ -20,14 +21,14 @@ import (
 //go:embed assert.ipldsch
 var assertSchema []byte
 
-var assertTS *ipldschema.TypeSystem
+var assertTS = mustLoadTS()
 
-func init() {
+func mustLoadTS() *ipldschema.TypeSystem {
 	ts, err := ipldprime.LoadSchemaBytes(assertSchema)
 	if err != nil {
 		panic(fmt.Errorf("loading assert schema: %w", err))
 	}
-	assertTS = ts
+	return ts
 }
 
 func LocationCaveatsType() ipldschema.Type {
@@ -66,13 +67,31 @@ type LocationCaveats struct {
 	Space    did.DID
 }
 
+// Space field used to be optional, so we maintain compatibility
+type LegacyLocationCaveats struct {
+	Content  types.HasMultihash
+	Location []url.URL
+	Range    *Range
+	Space    *did.DID
+}
+
 func (lc LocationCaveats) ToIPLD() (datamodel.Node, error) {
-	return ipld.WrapWithRecovery(&lc, LocationCaveatsType(), types.Converters...)
+
+	return ipld.WrapWithRecovery(&LegacyLocationCaveats{
+		lc.Content, lc.Location, lc.Range, &lc.Space,
+	}, LocationCaveatsType(), types.Converters...)
 }
 
 const LocationAbility = "assert/location"
 
-var LocationCaveatsReader = schema.Struct[LocationCaveats](LocationCaveatsType(), nil, types.Converters...)
+var LocationCaveatsReader = schema.Mapped(schema.Struct[LegacyLocationCaveats](LocationCaveatsType(), nil, types.Converters...),
+	func(llc LegacyLocationCaveats) (LocationCaveats, failure.Failure) {
+		space := did.Undef
+		if llc.Space != nil {
+			space = *llc.Space
+		}
+		return LocationCaveats{llc.Content, llc.Location, llc.Range, space}, nil
+	})
 
 var Location = validator.NewCapability(LocationAbility, schema.DIDString(), LocationCaveatsReader, nil)
 
