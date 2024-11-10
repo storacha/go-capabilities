@@ -34,6 +34,7 @@ func (ac AcceptCaveats) ToIPLD() (datamodel.Node, error) {
 
 type AcceptOk struct {
 	Site ucan.Link
+	PDP  *ucan.Link
 }
 
 func (ao AcceptOk) ToIPLD() (datamodel.Node, error) {

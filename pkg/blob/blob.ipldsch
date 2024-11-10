@@ -44,4 +44,5 @@ type AcceptCaveats struct {
 
 type AcceptOk struct {
   site Link
+  PDP optional Link
 }
