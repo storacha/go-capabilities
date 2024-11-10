@@ -1,7 +1,7 @@
 type Node bytes
 type PieceLink link
 
-type PDPAcceptCaveats struct {
+type AcceptCaveats struct {
 	piece   PieceLink
 }
 
@@ -10,22 +10,22 @@ type ProofData struct {
 	index Int
 }
 
-type PDPAcceptOk struct {
+type AcceptOk struct {
 	aggregate      PieceLink
 	inclusionProof ProofData
 	piece          PieceLink
 }
 
-type PDPInfoCaveats struct {
+type InfoCaveats struct {
 	piece   PieceLink
 }
 
-type PDPInfoAcceptedAggregate struct {
+type InfoAcceptedAggregate struct {
 	aggregate 		 PieceLink
 	inclusionProof ProofData
 }
 
-type PDPInfoOk struct {
+type InfoOk struct {
 	piece          PieceLink
-	aggregates     [PDPInfoAcceptedAggregate]
+	aggregates     [InfoAcceptedAggregate]
 }
