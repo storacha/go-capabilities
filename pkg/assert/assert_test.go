@@ -9,6 +9,7 @@ import (
 	"github.com/ipld/go-ipld-prime/codec/dagjson"
 	basicnode "github.com/ipld/go-ipld-prime/node/basic"
 	"github.com/storacha/go-capabilities/pkg/internal/testutil"
+	"github.com/storacha/go-capabilities/pkg/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -19,7 +20,7 @@ func TestRoundTripLocationCaveats(t *testing.T) {
 
 	length := uint64(20)
 	nb := LocationCaveats{
-		Content:  FromHash(digest),
+		Content:  types.FromHash(digest),
 		Space:    testutil.RandomPrincipal(t).DID(),
 		Location: []url.URL{*location},
 		Range: &Range{
